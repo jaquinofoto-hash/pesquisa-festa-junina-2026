@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pesquisa de Satisfação - Festa Junina 2026</title>
+  <style>
+    :root {
+      --vinho: #7a1430;
+      --vinho-escuro: #4d0b1d;
+      --dourado: #d7a83f;
+      --claro: #fff8ec;
+      --texto: #2b2b2b;
+      --cinza: #f2f2f2;
+      --verde: #1b8a5a;
+      --vermelho: #b42318;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #fff8ec, #f7e7c2);
+      color: var(--texto);
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--vinho), var(--vinho-escuro));
+      color: white;
+      padding: 30px 16px;
+      text-align: center;
+      border-bottom: 6px solid var(--dourado);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      font-size: 16px;
+    }
+
+    main {
+      max-width: 1050px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      padding: 22px;
+      margin-bottom: 22px;
+      border-top: 5px solid var(--dourado);
+    }
+
+    h2 {
+      color: var(--vinho);
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 95px;
+      resize: vertical;
+      margin-bottom: 14px;
+    }
+
+    .escala {
+      background: var(--claro);
+      border-left: 5px solid var(--dourado);
+      padding: 12px;
+      border-radius: 10px;
+      margin: 18px 0;
+      font-size: 15px;
+    }
+
+    .item-avaliacao {
+      border: 1px solid #e5d4ad;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      background: #fffdf8;
+    }
+
+    .item-avaliacao .pergunta {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .notas {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .notas label {
+      font-weight: normal;
+      background: var(--cinza);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+      border: 1px solid #ddd;
+      transition: 0.2s;
+    }
+
+    .notas input {
+      width: auto;
+      margin-right: 5px;
+    }
+
+    .notas label:hover {
+      background: #f3dfae;
+      border-color: var(--dourado);
+    }
+
+    .acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      padding: 13px 19px;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+
+    .btn-principal {
+      background: var(--vinho);
+      color: white;
+    }
+
+    .btn-principal:hover {
+      background: var(--vinho-escuro);
+    }
+
+    .btn-limpar {
+      background: var(--dourado);
+      color: #2b1b00;
+    }
+
+    .alerta {
+      padding: 13px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      display: none;
+      font-weight: bold;
+    }
+
+    .sucesso {
+      background: #e7f6ee;
+      color: var(--verde);
+      border: 1px solid #b8e2cc;
+    }
+
+    .erro {
+      background: #fff0ed;
+      color: var(--vermelho);
+      border: 1px solid #ffd0c8;
+    }
+
+    .aviso-config {
+      background: #fff3cd;
+      border: 1px solid #ffe08a;
+      color: #664d03;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px;
+      color: #6b4b1a;
+      font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 23px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pesquisa de Satisfação – Festa Junina 2026</h1>
+    <p>Colégio Nossa Senhora das Mercês</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Ficha de Avaliação</h2>
+
+      
+
+      <div id="msgSucesso" class="alerta sucesso">Avaliação enviada com sucesso! Obrigado pela participação.</div>
+      <div id="msgErro" class="alerta erro">Não foi possível enviar. Verifique os campos obrigatórios ou a configuração do link.</div>
+
+      <form id="formAvaliacao">
+        <div class="grid">
+          <div>
+            <label for="unidade">Unidade *</label>
+            <select id="unidade" required>
+              <option value="">Selecione</option>
+              <option>Nova Friburgo</option>
+              <option>Niterói</option>
+              <option>Pavuna</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="dataFesta">Data da festa *</label>
+            <input type="date" id="dataFesta" value="2026-06-13" required />
+          </div>
+
+          
+
+          
+        </div>
+
+        <div class="escala">
+          <strong>Escala de avaliação:</strong><br>
+          1 – Insuficiente | 2 – Regular | 3 – Bom | 4 – Muito Bom | 5 – Excelente
+        </div>
+
+        <div id="listaPerguntas"></div>
+
+        <h2>Questões Abertas</h2>
+
+        <label for="pontosFortes">1. Quais foram os principais pontos fortes da Festa Junina?</label>
+        <textarea id="pontosFortes"></textarea>
+
+        <label for="melhorias">2. Quais aspectos precisam ser melhorados?</label>
+        <textarea id="melhorias"></textarea>
+
+        <label for="valores">3. Como a festa contribuiu para fortalecer a identidade e os valores mercedários?</label>
+        <textarea id="valores"></textarea>
+
+        <label for="sugestoes">4. Sugestões para a próxima edição:</label>
+        <textarea id="sugestoes"></textarea>
+
+        <div class="grid">
+          <div>
+            <label for="parecer">Parecer Final *</label>
+            <select id="parecer" required>
+              <option value="">Selecione</option>
+              <option>Excelente</option>
+              <option>Muito Boa</option>
+              <option>Regular</option>
+              <option>Necessita melhorias significativas</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="promoveu">A festa promoveu integração, cultura, evangelização e fortalecimento dos laços? *</label>
+            <select id="promoveu" required>
+              <option value="">Selecione</option>
+              <option>Sim plenamente</option>
+              <option>Sim parcialmente</option>
+              <option>Pouco</option>
+              <option>Não</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="quaisMelhorias">Se necessita melhorias significativas, quais?</label>
+        <textarea id="quaisMelhorias"></textarea>
+
+        <label for="observacoes">Observações finais:</label>
+        <textarea id="observacoes"></textarea>
+
+        <div class="acoes">
+          <button type="submit" class="btn-principal" id="btnEnviar">Enviar Avaliação</button>
+          <button type="button" class="btn-limpar" onclick="limparFormulario()">Limpar Formulário</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    Sistema de Avaliação Interna – Festa Junina Mercedária 2026
+  </footer>
+
+  <script>
+    // COLE AQUI O LINK DO WEB APP DO GOOGLE APPS SCRIPT
+    const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxFtyjjbCa0EMwib319sUNKF88JTs-mluvo-vYYBpYtREtKboNWk05ujKYslUe9qtaA/exec";
+
+    const perguntas = [
+      "Organização geral do evento",
+      "Divulgação da festa",
+      "Limpeza dos espaços",
+      "Segurança dos participantes",
+      "Participação dos alunos",
+      "Participação das famílias",
+      "Envolvimento dos educadores e funcionários",
+      "Qualidade das apresentações culturais",
+      "Pontualidade da programação",
+      "Organização das barracas",
+      "Qualidade dos alimentos oferecidos",
+      "Atendimento ao público",
+      "Integração escola-família",
+      "Vivência dos valores mercedários",
+      "Espírito de fraternidade e acolhida",
+      "Alcance dos objetivos pastorais",
+      "Resultado geral do evento"
+    ];
+
+    function montarPerguntas() {
+      const lista = document.getElementById("listaPerguntas");
+      lista.innerHTML = "";
+
+      perguntas.forEach((pergunta, index) => {
+        const numero = index + 1;
+        const div = document.createElement("div");
+        div.className = "item-avaliacao";
+
+        div.innerHTML = `
+          <div class="pergunta">${numero}. ${pergunta} *</div>
+          <div class="notas">
+            ${[1,2,3,4,5].map(nota => `
+              <label>
+                <input type="radio" name="nota_${index}" value="${nota}" required>
+                ${nota}
+              </label>
+            `).join("")}
+          </div>
+        `;
+
+        lista.appendChild(div);
+      });
+    }
+
+    function obterValor(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function mostrarMensagem(id) {
+      document.getElementById("msgSucesso").style.display = "none";
+      document.getElementById("msgErro").style.display = "none";
+      document.getElementById(id).style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function limparFormulario() {
+      document.getElementById("formAvaliacao").reset();
+      document.getElementById("dataFesta").value = "2026-06-13";
+    }
+
+    function calcularMedia(notas) {
+      const soma = notas.reduce((acc, nota) => acc + nota, 0);
+      return (soma / notas.length).toFixed(2);
+    }
+
+    document.getElementById("formAvaliacao").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      if (URL_SCRIPT === "COLE_AQUI_O_LINK_DO_SEU_GOOGLE_APPS_SCRIPT") {
+        mostrarMensagem("msgErro");
+        alert("Você ainda precisa colar o link do Google Apps Script dentro do arquivo HTML.");
+        return;
+      }
+
+      const notas = perguntas.map((_, index) => {
+        const selecionada = document.querySelector(`input[name="nota_${index}"]:checked`);
+        return selecionada ? Number(selecionada.value) : null;
+      });
+
+      const valido = notas.every(n => n !== null)
+        && obterValor("unidade")
+        && obterValor("dataFesta")
+        && obterValor("parecer")
+        && obterValor("promoveu");
+
+      if (!valido) {
+        mostrarMensagem("msgErro");
+        return;
+      }
+
+      const dados = {
+        unidade: obterValor("unidade"),
+        dataFesta: obterValor("dataFesta"),
+        equipe: "",
+        barracas: "",
+
+        nota1: notas[0],
+        nota2: notas[1],
+        nota3: notas[2],
+        nota4: notas[3],
+        nota5: notas[4],
+        nota6: notas[5],
+        nota7: notas[6],
+        nota8: notas[7],
+        nota9: notas[8],
+        nota10: notas[9],
+        nota11: notas[10],
+        nota12: notas[11],
+        nota13: notas[12],
+        nota14: notas[13],
+        nota15: notas[14],
+        nota16: notas[15],
+        nota17: notas[16],
+
+        pontosFortes: obterValor("pontosFortes"),
+        melhorias: obterValor("melhorias"),
+        valores: obterValor("valores"),
+        sugestoes: obterValor("sugestoes"),
+        parecer: obterValor("parecer"),
+        promoveu: obterValor("promoveu"),
+        quaisMelhorias: obterValor("quaisMelhorias"),
+        observacoes: obterValor("observacoes"),
+        mediaGeral: calcularMedia(notas)
+      };
+
+      const botao = document.getElementById("btnEnviar");
+      botao.disabled = true;
+      botao.textContent = "Enviando...";
+
+      try {
+        await fetch(URL_SCRIPT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(dados)
+        });
+
+        limparFormulario();
+        mostrarMensagem("msgSucesso");
+
+      } catch (error) {
+        console.error(error);
+        mostrarMensagem("msgErro");
+      } finally {
+        botao.disabled = false;
+        botao.textContent = "Enviar Avaliação";
+      }
+    });
+
+    montarPerguntas();
+  </script>
+</body>
+</html>
